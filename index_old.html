@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyScript Sine Wave Plotter</title>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+</head>
+<body>
+    <h1>🧠 PyScript Sine Wave Plotter</h1>
+    <p>Enter the parameters below to generate your sine wave plot.</p>
+
+    <div>
+        <label for="amplitude">Amplitude:</label>
+        <input type="number" id="amplitude" value="1" step="0.1"><br><br>
+
+        <label for="frequency">Frequency:</label>
+        <input type="number" id="frequency" value="1" step="0.1"><br><br>
+
+        <label for="phase">Phase Shift (radians):</label>
+        <input type="number" id="phase" value="0" step="0.1"><br><br>
+
+        <button id="plot-button">Generate Plot</button>
+    </div>
+
+    <hr>
+
+    <div id="plot-container"></div>
+
+    <py-config>
+        packages = ["numpy", "matplotlib"]
+    </py-config>
+
+    <py-script>
+        from pyscript import document
+        import numpy as np
+        import matplotlib.pyplot as plt
+
+        def plot_sine_wave(event):
+            amplitude = float(document.getElementById("amplitude").value)
+            frequency = float(document.getElementById("frequency").value)
+            phase = float(document.getElementById("phase").value)
+
+            x = np.linspace(0, 2 * np.pi, 400)
+            y = amplitude * np.sin(frequency * x + phase)
+
+            fig, ax = plt.subplots()
+            ax.plot(x, y, label=f"A={amplitude}, f={frequency}, phase={phase}")
+            ax.set_xlabel("x")
+            ax.set_ylabel("y")
+            ax.set_title("Sine Wave")
+            ax.legend()
+
+            plot_container = document.getElementById("plot-container")
+            plot_container.innerHTML = ""
+
+            pyscript.display(fig, target="plot-container")
+
+        button = document.getElementById("plot-button")
+        button.addEventListener("click", plot_sine_wave)
+    </py-script>
+</body>
+</html>
