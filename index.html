@@ -36,6 +36,7 @@
 
     <!-- PyScript inline Python code -->
     <py-script>
+        from pyodide.ffi import create_proxy
         from pyscript import document
         import numpy as np
         import matplotlib.pyplot as plt
@@ -66,9 +67,13 @@
             # Display the matplotlib figure in the container
             pyscript.display(fig, target="plot-container")
 
-        # Set up event listener for the button
+        # ✅ Create a proxy to persist the callback reference
+        plot_callback = create_proxy(plot_sine_wave)
+
+        # ✅ Attach event listener safely
         button = document.getElementById("plot-button")
-        button.addEventListener("click", plot_sine_wave)
+        button.addEventListener("click", plot_callback)
+
     </py-script>
 
 </body>
