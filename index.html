@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PyScript Sine Wave Plotter</title>
-    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <!-- PyScript version-pinned CDN -->
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.8.1/core.css">
+    <script type="module" src="https://pyscript.net/releases/2025.8.1/core.js"></script>
 </head>
 <body>
     <h1>🧠 PyScript Sine Wave Plotter</h1>
@@ -28,48 +29,47 @@
 
     <div id="plot-container"></div>
 
+    <!-- PyScript config to load required Python packages -->
     <py-config>
         packages = ["numpy", "matplotlib"]
     </py-config>
 
+    <!-- PyScript inline Python code -->
     <py-script>
-        from pyscript import document, display
+        from pyscript import document
         import numpy as np
         import matplotlib.pyplot as plt
+        import pyscript
 
         def plot_sine_wave(event):
-            # Read input values
+            # Read values from the input fields
             amplitude = float(document.getElementById("amplitude").value)
             frequency = float(document.getElementById("frequency").value)
             phase = float(document.getElementById("phase").value)
 
-            # Generate sine wave data
+            # Generate data for the sine wave
             x = np.linspace(0, 2 * np.pi, 400)
             y = amplitude * np.sin(frequency * x + phase)
 
-            # Create the Matplotlib figure
+            # Create the plot
             fig, ax = plt.subplots()
-            ax.plot(x, y, color="blue", linewidth=2)
+            ax.plot(x, y, label=f"A={amplitude}, f={frequency}, phase={phase}")
             ax.set_xlabel("x")
             ax.set_ylabel("y")
-            ax.set_title(f"Sine Wave (A={amplitude}, f={frequency}, phase={phase})")
-            ax.grid(True)
+            ax.set_title("Sine Wave")
+            ax.legend()
 
-            # Important: close the figure before displaying
-            plt.close(fig)
+            # Clear previous plot
+            plot_container = document.getElementById("plot-container")
+            plot_container.innerHTML = ""
 
-            # Clear previous plots
-            container = document.getElementById("plot-container")
-            container.innerHTML = ""
+            # Display the matplotlib figure in the container
+            pyscript.display(fig, target="plot-container")
 
-            # Display figure in the container
-            display(fig, target="plot-container")
-
-        # Attach event listener
+        # Set up event listener for the button
         button = document.getElementById("plot-button")
         button.addEventListener("click", plot_sine_wave)
     </py-script>
-
 
 </body>
 </html>
