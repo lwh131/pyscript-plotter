@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
 from reconstruction import reconstruct
-from simulation_utils import generate_seabed
+# from simulation_utils import generate_seabed
 
 
 PROFILE_LENGTH = 500

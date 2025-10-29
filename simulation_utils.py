@@ -5,7 +5,7 @@ import pandas as pd
 from scipy.interpolate import BSpline, LSQUnivariateSpline
 from scipy.ndimage import gaussian_filter1d
 import plotly.graph_objects as go
-from perlin_noise import PerlinNoise
+# from perlin_noise import PerlinNoise
 from scipy.integrate import solve_bvp
 from scipy.interpolate import CubicSpline
 from scipy.constants import g
@@ -314,41 +314,41 @@ def fit_spline(x, y, num_control_points):
     return coefficients
 
 
-def generate_seabed(seed, profile_length):
+# def generate_seabed(seed, profile_length):
 
-    noise_layers = {
-        'layer1': {'octaves': 0.05, 'amplitude': 20, 'seed_offset': 0},
-        'layer2': {'octaves': 0.1, 'amplitude': 10, 'seed_offset': 1},
-        'layer3': {'octaves': 0.2, 'amplitude': 5, 'seed_offset': 2},
-        'layer4': {'octaves': 0.4, 'amplitude': 2.5, 'seed_offset': 3},
-        'layer5': {'octaves': 0.8, 'amplitude': 1.2, 'seed_offset': 4},
-        'layer6': {'octaves': 1.6, 'amplitude': 0.6, 'seed_offset': 5},
-        'layer7': {'octaves': 3.8, 'amplitude': 0.3, 'seed_offset': 6},
-        'layer8': {'octaves': 7.7, 'amplitude': 0.1, 'seed_offset': 7},
-        'layer9': {'octaves': 15.4, 'amplitude': 0.09, 'seed_offset': 8},
-        'layer10': {'octaves': 30.7, 'amplitude': 0.04, 'seed_offset': 9},
-        'layer11': {'octaves': 150, 'amplitude': 0.025, 'seed_offset': 10},
-        'layer12': {'octaves': 20, 'amplitude': 0.1, 'seed_offset': 11}
-    }
+#     noise_layers = {
+#         'layer1': {'octaves': 0.05, 'amplitude': 20, 'seed_offset': 0},
+#         'layer2': {'octaves': 0.1, 'amplitude': 10, 'seed_offset': 1},
+#         'layer3': {'octaves': 0.2, 'amplitude': 5, 'seed_offset': 2},
+#         'layer4': {'octaves': 0.4, 'amplitude': 2.5, 'seed_offset': 3},
+#         'layer5': {'octaves': 0.8, 'amplitude': 1.2, 'seed_offset': 4},
+#         'layer6': {'octaves': 1.6, 'amplitude': 0.6, 'seed_offset': 5},
+#         'layer7': {'octaves': 3.8, 'amplitude': 0.3, 'seed_offset': 6},
+#         'layer8': {'octaves': 7.7, 'amplitude': 0.1, 'seed_offset': 7},
+#         'layer9': {'octaves': 15.4, 'amplitude': 0.09, 'seed_offset': 8},
+#         'layer10': {'octaves': 30.7, 'amplitude': 0.04, 'seed_offset': 9},
+#         'layer11': {'octaves': 150, 'amplitude': 0.025, 'seed_offset': 10},
+#         'layer12': {'octaves': 20, 'amplitude': 0.1, 'seed_offset': 11}
+#     }
     
-    # Initialize profile with zeros
-    profile = np.zeros(profile_length)
+#     # Initialize profile with zeros
+#     profile = np.zeros(profile_length)
     
-    # Generate and combine all noise layers
-    for layer_name, params in noise_layers.items():
-        noise = PerlinNoise(octaves=params['octaves'], seed=seed + params['seed_offset'])
-        layer_profile = [noise([i / profile_length]) * params['amplitude'] 
-                         for i in range(profile_length)]
-        profile += np.array(layer_profile)
+#     # Generate and combine all noise layers
+#     for layer_name, params in noise_layers.items():
+#         noise = PerlinNoise(octaves=params['octaves'], seed=seed + params['seed_offset'])
+#         layer_profile = [noise([i / profile_length]) * params['amplitude'] 
+#                          for i in range(profile_length)]
+#         profile += np.array(layer_profile)
     
-    # Normalise to achieve ~2m range per 200m
-    scaling_factor = (2 / (profile.max() - profile.min())) + (np.random.random_sample() - 0.5) / 2
-    profile = profile * scaling_factor
+#     # Normalise to achieve ~2m range per 200m
+#     scaling_factor = (2 / (profile.max() - profile.min())) + (np.random.random_sample() - 0.5) / 2
+#     profile = profile * scaling_factor
     
-    # Shift the profile to have a mean of 0 (optional)
-    profile = profile - profile.mean()
+#     # Shift the profile to have a mean of 0 (optional)
+#     profile = profile - profile.mean()
     
-    return profile
+#     return profile
 
 
 def check_contact(cable_x, cable_z):

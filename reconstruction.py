@@ -7,7 +7,7 @@ from preprocessing import DataScaler
 from models import InceptCurvesFiLM
 from simulation_utils import beam_on_elastic_foundation_bvp
 from sklearn.metrics import f1_score
-from simulation_utils import generate_seabed
+# from simulation_utils import generate_seabed
 from scipy.ndimage import gaussian_filter
 import matplotlib.pyplot as plt
 
@@ -402,7 +402,7 @@ if __name__ == '__main__':
         'k_foundation': 1e5
     }
     
-    seabed_x = np.arange(0, seabed_dict['profile_length'] + 1, 1)
-    seabed_z = generate_seabed(np.random.randint(1, 1e6), seabed_dict['profile_length'] + 1)
-    predicted_cable_z = reconstruct(seabed_x, seabed_z, cable_dict, seabed_dict)
-    print(predicted_cable_z)
+    # seabed_x = np.arange(0, seabed_dict['profile_length'] + 1, 1)
+    # seabed_z = generate_seabed(np.random.randint(1, 1e6), seabed_dict['profile_length'] + 1)
+    # predicted_cable_z = reconstruct(seabed_x, seabed_z, cable_dict, seabed_dict)
+    # print(predicted_cable_z)
