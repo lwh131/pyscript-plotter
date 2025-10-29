@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import os
-import random
 from preprocessing import DataScaler
 from models import InceptCurvesFiLM
 from simulation_utils import beam_on_elastic_foundation_bvp
