@@ -43,33 +43,20 @@
         import pyscript
 
         def plot_sine_wave(event):
-            # Reading values from input fields (this part is unchanged)
-            amplitude = float(document.getElementById("amplitude").value)
-            frequency = float(document.getElementById("frequency").value)
-            phase = float(document.getElementById("phase").value)
+            data = [[3], [2], [1]]
 
-            # Generating data (this part is unchanged)
-            x = np.linspace(0, 2 * np.pi, 400)
-            y = amplitude * np.sin(frequency * x + phase)
+            fig = go.Figure(data=[go.Surface(z=data)])
 
-            # 3. Create the plot using Plotly's syntax
-            fig = go.Figure()
-            
-            # Add the sine wave data as a scatter plot (line mode)
-            fig.add_trace(go.Scatter(
-                x=x, 
-                y=y, 
-                mode='lines', 
-                name=f'A={amplitude}, f={frequency}'
-            ))
-            
-            # Configure the layout, title, and axis labels
             fig.update_layout(
-                title="Interactive Sine Wave",
-                xaxis_title="x",
-                yaxis_title="y",
-                template="plotly_white" # Optional: for a clean look
-            )
+                title=dict(text="3D Seabed Terrain Explorer", x=0.5, font=dict(size=18, color='white')),
+                scene=dict(
+                    xaxis=dict(title="Distance East (m)", showgrid=True, gridcolor='lightblue'),
+                    yaxis=dict(title="Distance North (m)", showgrid=True, gridcolor='lightblue'),
+                    zaxis=dict(title="Depth (m)", showgrid=True, gridcolor='lightblue', autorange='reversed'),
+                    camera=dict(eye=dict(x=1.8, y=1.8, z=1.2)),
+                    aspectratio=dict(x=1, y=1, z=0.4)
+                ),
+                template='plotly_dark')
 
             # Clear previous plot from the container
             plot_container = document.getElementById("plot-container")
