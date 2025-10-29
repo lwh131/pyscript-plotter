@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PyScript Sine Wave Plotter</title>
+    <title>PyScript Plotly Sine Wave Plotter</title>
     <!-- PyScript version-pinned CDN -->
-    <link rel="stylesheet" href="https://pyscript.net/releases/2025.8.1/core.css">
-    <script type="module" src="https://pyscript.net/releases/2025.8.1/core.js"></script>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
 </head>
 <body>
-    <h1>🧠 PyScript Sine Wave Plotter</h1>
-    <p>Enter the parameters below to generate your sine wave plot.</p>
+    <h1>🧠 PyScript Plotly Sine Wave Plotter</h1>
+    <p>Enter the parameters below to generate your interactive sine wave plot.</p>
 
     <div>
         <label for="amplitude">Amplitude:</label>
@@ -29,48 +29,57 @@
 
     <div id="plot-container"></div>
 
-    <!-- PyScript config to load required Python packages -->
+    <!-- 1. Changed package from "matplotlib" to "plotly" -->
     <py-config>
-        packages = ["numpy", "matplotlib"]
+        packages = ["numpy", "plotly"]
     </py-config>
 
-    <!-- PyScript inline Python code --> 
     <py-script>
         from pyodide.ffi import create_proxy
         from pyscript import document
         import numpy as np
-        import matplotlib.pyplot as plt
+        # 2. Changed import to use plotly
+        import plotly.graph_objects as go
         import pyscript
 
         def plot_sine_wave(event):
-            # Read values from the input fields
+            # Reading values from input fields (this part is unchanged)
             amplitude = float(document.getElementById("amplitude").value)
             frequency = float(document.getElementById("frequency").value)
             phase = float(document.getElementById("phase").value)
 
-            # Generate data for the sine wave
+            # Generating data (this part is unchanged)
             x = np.linspace(0, 2 * np.pi, 400)
             y = amplitude * np.sin(frequency * x + phase)
 
-            # Create the plot
-            fig, ax = plt.subplots()
-            ax.plot(x, y, label=f"A={amplitude}, f={frequency}, phase={phase}")
-            ax.set_xlabel("x")
-            ax.set_ylabel("y")
-            ax.set_title("Sine Wave")
-            ax.legend()
+            # 3. Create the plot using Plotly's syntax
+            fig = go.Figure()
+            
+            # Add the sine wave data as a scatter plot (line mode)
+            fig.add_trace(go.Scatter(
+                x=x, 
+                y=y, 
+                mode='lines', 
+                name=f'A={amplitude}, f={frequency}'
+            ))
+            
+            # Configure the layout, title, and axis labels
+            fig.update_layout(
+                title="Interactive Sine Wave",
+                xaxis_title="x",
+                yaxis_title="y",
+                template="plotly_white" # Optional: for a clean look
+            )
 
-            # Clear previous plot
+            # Clear previous plot from the container
             plot_container = document.getElementById("plot-container")
             plot_container.innerHTML = ""
 
-            # Display the matplotlib figure in the container
+            # 4. Display the Plotly figure in the container (this works the same!)
             pyscript.display(fig, target="plot-container")
 
-        # ✅ Create a proxy to persist the callback reference
+        # Event listener logic (this part is unchanged)
         plot_callback = create_proxy(plot_sine_wave)
-
-        # ✅ Attach event listener safely
         button = document.getElementById("plot-button")
         button.addEventListener("click", plot_callback)
 
